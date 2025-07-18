@@ -1,22 +1,17 @@
+
 import React, { useEffect, useState } from "react";
 import "./style.css";
 
-// ✅ This is your live Flask backend URL
-const BACKEND_URL = "https://stock-platform-nkrj.onrender.com";
+const BACKEND_URL = "https://stock-platform-nkrj.onrender.com"; // Your backend URL
 
 export default function App() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/`)
-      .then((res) => res.text())
-      .then((data) => {
-        setMessage(data);
-      })
-      .catch((err) => {
-        setMessage("⚠️ Error connecting to backend.");
-        console.error(err);
-      });
+      .then((res) => res.json())
+      .then((data) => setMessage(data.message))
+      .catch(() => setMessage("⚠️ Error connecting to backend."));
   }, []);
 
   return (
