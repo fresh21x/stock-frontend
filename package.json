@@ -1,15 +1,27 @@
- 
-{
-  "name": "stock-forecasting-frontend",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build"
-  }
+import React, { useEffect, useState } from "react";
+import "./style.css";
+
+const BACKEND_URL = "https://stock-platform-nkrj.onrender.com";
+
+export default function App() {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/`)
+      .then((res) => res.json())   // <-- important to parse JSON
+      .then((data) => {
+        setMessage(data.message);  // <-- set the message from backend
+      })
+      .catch((err) => {
+        setMessage("⚠️ Error connecting to backend.");
+        console.error(err);
+      });
+  }, []);
+
+  return (
+    <div>
+      <h1>📈 My Stock Forecasting App</h1>
+      <p>🔌 Backend says: {message}</p>
+    </div>
+  );
 }
