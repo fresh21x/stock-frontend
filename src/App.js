@@ -1,17 +1,21 @@
-
 import React, { useEffect, useState } from "react";
 import "./style.css";
 
-const BACKEND_URL = "https://stock-platform-nkrj.onrender.com"; // Your backend URL
+const BACKEND_URL = "https://stock-platform-nkrj.onrender.com";
 
 export default function App() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/`)
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch(() => setMessage("⚠️ Error connecting to backend."));
+      .then((res) => res.json()) // changed from res.text() to res.json()
+      .then((data) => {
+        setMessage(data.message); // use data.message
+      })
+      .catch((err) => {
+        setMessage("⚠️ Error connecting to backend.");
+        console.error(err);
+      });
   }, []);
 
   return (
